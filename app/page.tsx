@@ -1,103 +1,179 @@
-import Image from "next/image";
+"use client"
 
-export default function Home() {
+import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
+import { Checkbox } from "@/components/ui/checkbox"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
+import { MailIcon, MapPinIcon, MessageCircle, PhoneIcon } from "lucide-react"
+import Link from "next/link"
+
+export default function Contact02Page() {
+  // función que maneja el envío del formulario
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault() // evita redirección
+
+    const form = e.currentTarget
+    const formData = new FormData(form)
+
+    const res = await fetch("/api/contact", {
+      method: "POST",
+      body: formData,
+    })
+
+    const data = await res.json()
+
+    if (data.ok) {
+      alert("✅ Mensaje enviado con éxito")
+      form.reset()
+    } else {
+      alert("❌ Error al enviar el mensaje: " + (data.error || "Desconocido"))
+    }
+  }
+
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <div className="min-h-screen flex items-center justify-center py-16">
+      <div className="w-full max-w-(--breakpoint-xl) mx-auto px-6 xl:px-0">
+        <b className="text-muted-foreground uppercase font-semibold text-sm">
+          Contact Us
+        </b>
+        <h2 className="mt-3 text-3xl md:text-4xl font-semibold tracking-tight">
+          Chat with our friendly team!
+        </h2>
+        <p className="mt-3 text-base sm:text-lg text-muted-foreground">
+          We&apos;d love to hear from you. Please fill out this form or shoot us
+          an email.
+        </p>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+        <div className="mt-24 grid lg:grid-cols-2 gap-16 md:gap-10">
+          {/* COLUMNA IZQUIERDA (igual visualmente) */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-12">
+            <div>
+              <div className="h-12 w-12 flex items-center justify-center bg-primary/5 dark:bg-primary/10 text-primary rounded-full">
+                <MailIcon />
+              </div>
+              <h3 className="mt-6 font-semibold text-xl">Email</h3>
+              <p className="my-2.5 text-muted-foreground">
+                Our friendly team is here to help.
+              </p>
+              <Link
+                className="font-medium text-primary"
+                href="mailto:akashmoradiya3444@gmail.com"
+              >
+                akashmoradiya3444@gmail.com
+              </Link>
+            </div>
+            <div>
+              <div className="h-12 w-12 flex items-center justify-center bg-primary/5 dark:bg-primary/10 text-primary rounded-full">
+                <MessageCircle />
+              </div>
+              <h3 className="mt-6 font-semibold text-xl">Live chat</h3>
+              <p className="my-2.5 text-muted-foreground">
+                Our friendly team is here to help.
+              </p>
+              <Link className="font-medium text-primary" href="#">
+                Start new chat
+              </Link>
+            </div>
+            <div>
+              <div className="h-12 w-12 flex items-center justify-center bg-primary/5 dark:bg-primary/10 text-primary rounded-full">
+                <MapPinIcon />
+              </div>
+              <h3 className="mt-6 font-semibold text-xl">Office</h3>
+              <p className="my-2.5 text-muted-foreground">
+                Come say hello at our office HQ.
+              </p>
+              <Link
+                className="font-medium text-primary"
+                href="https://map.google.com"
+                target="_blank"
+              >
+                100 Smith Street Collingwood <br /> VIC 3066 AU
+              </Link>
+            </div>
+            <div>
+              <div className="h-12 w-12 flex items-center justify-center bg-primary/5 dark:bg-primary/10 text-primary rounded-full">
+                <PhoneIcon />
+              </div>
+              <h3 className="mt-6 font-semibold text-xl">Phone</h3>
+              <p className="my-2.5 text-muted-foreground">
+                Mon-Fri from 8am to 5pm.
+              </p>
+              <Link
+                className="font-medium text-primary"
+                href="tel:+15550000000"
+              >
+                +1 (555) 000-0000
+              </Link>
+            </div>
+          </div>
+
+          {/* FORMULARIO DERECHA (idéntico visualmente) */}
+          <Card className="bg-accent shadow-none py-0">
+            <CardContent className="p-6 md:p-8">
+              <form onSubmit={handleSubmit}>
+                <div className="grid md:grid-cols-2 gap-x-8 gap-y-6">
+                  <div className="col-span-2 sm:col-span-1">
+                    <Label htmlFor="firstName">First Name</Label>
+                    <Input
+                      id="firstName"
+                      name="firstName"
+                      placeholder="First name"
+                      className="mt-2 bg-white h-10 shadow-none"
+                      required
+                    />
+                  </div>
+                  <div className="col-span-2 sm:col-span-1">
+                    <Label htmlFor="lastName">Last Name</Label>
+                    <Input
+                      id="lastName"
+                      name="lastName"
+                      placeholder="Last name"
+                      className="mt-2 bg-white h-10 shadow-none"
+                      required
+                    />
+                  </div>
+                  <div className="col-span-2">
+                    <Label htmlFor="email">Email</Label>
+                    <Input
+                      type="email"
+                      id="email"
+                      name="email"
+                      placeholder="Email"
+                      className="mt-2 bg-white h-10 shadow-none"
+                      required
+                    />
+                  </div>
+                  <div className="col-span-2">
+                    <Label htmlFor="message">Message</Label>
+                    <Textarea
+                      id="message"
+                      name="message"
+                      placeholder="Message"
+                      className="mt-2 bg-white shadow-none"
+                      rows={6}
+                    />
+                  </div>
+                  <div className="col-span-2 flex items-center gap-2">
+                    <Checkbox id="acceptTerms" name="acceptTerms" className="bg-background" />
+                    <Label htmlFor="acceptTerms" className="gap-0">
+                      You agree to our
+                      <Link href="#" className="underline ml-1">
+                        terms and conditions
+                      </Link>
+                      <span>.</span>
+                    </Label>
+                  </div>
+                </div>
+                <Button className="mt-6 w-full" size="lg" type="submit">
+                  Submit
+                </Button>
+              </form>
+            </CardContent>
+          </Card>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </div>
     </div>
-  );
+  )
 }
