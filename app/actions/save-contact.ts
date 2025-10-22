@@ -5,7 +5,8 @@ import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 
 export async function saveContact(formData: FormData) {
-  const supabase = createClient();
+  const supabase = await createClient();
+
 
   const payload = {
     first_name: String(formData.get("firstName") || "").trim(),
